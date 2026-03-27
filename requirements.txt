@@ -1,0 +1,17 @@
+# Core Frameworks
+torch>=2.0.0
+torchvision
+
+# Data & Math
+numpy
+pandas
+scipy
+
+# Visualization & Progress
+matplotlib
+seaborn
+tqdm
+
+# Development
+pytest
+ipykernel
