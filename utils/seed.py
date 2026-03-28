@@ -3,7 +3,7 @@ import numpy as np
 import random
 import os
 
-def set_seed(seed: int = 56):
+def seed(seed: int = 56):
     """Sets the seed for reproducibility across python, numpy, and pytorch."""
     random.seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
