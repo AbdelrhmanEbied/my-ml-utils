@@ -1,6 +1,7 @@
 # Core Frameworks
 torch>=2.0.0
 torchvision
+scikit-learn
 
 # Data & Math
 numpy
