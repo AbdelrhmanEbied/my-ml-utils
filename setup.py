@@ -5,7 +5,7 @@ setup(
     version="0.1.0",
     description="A collection of PyTorch utilities for ML workflows",
     author="AbdelrhmanEbied",
-    # Automatically finds data, engine, metrics, and utils folders
+    
     packages=find_packages(),
     python_requires=">=3.8",
     install_requires=[
@@ -17,6 +17,6 @@ setup(
         "requests",
         "pandas",
         "scikit-learn",
-        "python-dotenv", # Needed for the VS Code Colab secret loading
+        "python-dotenv", 
     ],
 )
