@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any, Callable, Optional, Dict, Tuple
 
 
-def training_loop(
+def trainer(
     model: torch.nn.Module,
     train_dataloader: torch.utils.data.DataLoader,
     test_dataloader: torch.utils.data.DataLoader,
