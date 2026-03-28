@@ -1,2 +1,2 @@
-from data import datasetReporter
-from data import downloader
+from . import dataset_reporter
+from . import downloader
