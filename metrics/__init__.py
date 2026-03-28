@@ -1,1 +1,1 @@
-from metrics import metrics
+from . import metrics
