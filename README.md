@@ -1,6 +1,10 @@
 # My ML Utils
 
-A modular PyTorch utility library for streamlining machine learning workflows, including data management, model training, and performance evaluation.
+A collection of PyTorch utilities for my machine learning workflows.
+
+## Installation
+```bash
+pip install git+[https://github.com/AbdelrhmanEbied/my-ml-utils.git](https://github.com/AbdelrhmanEbied/my-ml-utils.git)
 
 ## Project Structure
 ```text
