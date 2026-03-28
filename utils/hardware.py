@@ -1,5 +1,5 @@
 import torch
-def get_device():
+def device():
     """Returns the best available device: CUDA, MPS (Apple Silicon), or CPU."""
     if torch.cuda.is_available():
         return torch.device("cuda")
