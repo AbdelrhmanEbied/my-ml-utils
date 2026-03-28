@@ -1,3 +1,3 @@
-from .checkpoints import checkpoints
-from .hardware import hardware
-from .seed import seed
+from utils import checkpoints
+from utils import hardware
+from utils import seed
