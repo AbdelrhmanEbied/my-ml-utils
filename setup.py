@@ -5,7 +5,7 @@ setup(
     version="0.1.0",
     description="A collection of PyTorch utilities for ML workflows",
     author="AbdelrhmanEbied",
-    
+    url="https://github.com/AbdelrhmanEbied/my-ml-utils",
     packages=find_packages(),
     python_requires=">=3.8",
     install_requires=[
@@ -17,6 +17,5 @@ setup(
         "requests",
         "pandas",
         "scikit-learn",
-        "python-dotenv", 
     ],
 )
