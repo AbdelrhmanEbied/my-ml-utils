@@ -86,14 +86,7 @@ def _safe_metric(
     y_true: torch.Tensor,
     device: torch.device,
 ) -> torch.Tensor:
-    """
-    FIX 3 — Cross-device metric safety.
-
-    Detaches both tensors and moves them to CPU/numpy before calling metric_fn,
-    so sklearn-style callables (which cannot accept CUDA tensors) work without
-    modification. The result is re-wrapped as a float32 CUDA tensor so
-    _reduce_mean can still perform all_reduce across DDP ranks.
-    """
+   
     pred_cpu = y_pred.detach().float().cpu()
     true_cpu = y_true.detach().cpu()
 
@@ -122,10 +115,7 @@ def _train_one_epoch(
         is_last_batch            = (batch_idx + 1) == num_batches
         is_partial_last_window   = is_last_batch and not is_accumulation_boundary
 
-        # FIX 4 — Correct remainder-window normalization.
-        # For the final partial window we divide only by how many micro-batches
-        # actually contributed, not by the full accumulation_steps. This ensures
-        # the effective gradient magnitude is identical to a full window.
+    
         remainder   = num_batches % accumulation_steps
         window_size = remainder if is_partial_last_window and remainder != 0 else accumulation_steps
 
@@ -144,11 +134,7 @@ def _train_one_epoch(
                     scaler.unscale_(optimizer)
                     torch.nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm)
 
-                # FIX 2 — AMP-scheduler desynchronization.
-                # Capture the scale before the step. If the GradScaler detects
-                # inf/NaN it skips the optimizer step and reduces the scale.
-                # Comparing scale values before/after tells us whether a real
-                # weight update happened — only then advance the LR scheduler.
+                
                 scale_before = scaler.get_scale()
                 scaler.step(optimizer)
                 scaler.update()
@@ -324,10 +310,7 @@ def trainer(
         local_rank = int(os.environ.get("LOCAL_RANK", 0))
         model = DDP(model, device_ids=[local_rank], find_unused_parameters=ddp_find_unused)
 
-    # FIX 1 — DDP early-stopping deadlock.
-    # A shared stop_flag tensor lives on every rank. Only rank 0 ever writes 1
-    # into it; all_reduce(MAX) then propagates that 1 to every other rank before
-    # anyone checks the flag, so all ranks exit the loop in the same iteration.
+
     stop_flag = torch.zeros(1, dtype=torch.int32, device=device)
 
     scaler    = torch.cuda.amp.GradScaler() if use_amp else None
@@ -439,9 +422,7 @@ def trainer(
                 print(f"\n[INFO] Early stopping triggered at epoch {epoch + 1}.")
                 stop_flag.fill_(1)
 
-        # FIX 1 (cont.) — Broadcast the stop decision to every rank.
-        # all_reduce(MAX) is a collective: every rank must call it every epoch.
-        # After the call, stop_flag == 1 on all ranks if rank 0 set it above.
+   
         if _is_ddp():
             dist.all_reduce(stop_flag, op=dist.ReduceOp.MAX)
 
