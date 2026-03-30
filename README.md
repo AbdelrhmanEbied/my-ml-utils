@@ -1,6 +1,6 @@
 # My ML Utils
 
-A collection of PyTorch utilities for my machine learning workflows.
+Collection of modular utility functions for data preprocessing, model evaluation, and pipeline automation.
 
 ## Installation
 ```bash
